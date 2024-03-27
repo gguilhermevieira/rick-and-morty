@@ -1,0 +1,42 @@
+section {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+    
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        column-gap: 15px;
+
+        input {
+            padding: 7px;
+            outline: none;
+            min-width: 200px;
+            border: 1px solid gray;
+            border-radius: 7px;
+
+            &:focus {
+                border: 1px solid blue;
+            }
+        }
+
+    }
+    
+    p {
+        color: gray;
+    }
+
+    ul {
+        padding: 0;
+        list-style: none;
+        margin-top: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        column-gap: 15px;
+        row-gap: 15px;
+        
+    }
+}

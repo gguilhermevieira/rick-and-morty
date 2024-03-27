@@ -1,0 +1,13 @@
+.profile {
+    display: flex;
+    column-gap: 15px;
+
+    img {
+        border-radius: 12px;
+    }
+
+    .infos {
+        display: flex;
+        column-gap: 10px;
+    }
+}
