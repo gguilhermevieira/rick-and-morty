@@ -7,31 +7,30 @@ import { FavoriteContext } from '../../context/FavoriteContext';
 
 export default function Favorite() {
     const navigate = useNavigate();
-    const { favofite, addFavorite} = useContext(FavoriteContext);
+    const { favofiteIds, addFavoriteIds, removeFavoriteIds} = useContext(FavoriteContext);
 
     const [favorites, setFavorites] = useState([]);
+
     const [search, setSearch] = useState('');
 
     useEffect(() => {
-        const fetchCharacters = async () => {
-            const url = search
-                ? `https://rickandmortyapi.com/api/character/2`
-                : `https://rickandmortyapi.com/api/character/2`;
+        async function carregaRepositorios () {
+          const resposta = await fetch(`https://rickandmortyapi.com/api/character/[${favofiteIds?.toString()}]`);
+          const repositorios = await resposta.json();
+            return repositorios;
+        }
+        if(favofiteIds.length > 0)
+            carregaRepositorios().then((repositorios) => setFavorites(repositorios));
+      }, []);
 
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-                setFavorites(data.results || []);
-            } catch (error) {
-                console.error('Erro ao buscar personagens:', error);
-            }
-        };
-
-        fetchCharacters();
-    }, [search, favofite, favorites]);
-
+      
     const mostrar = (id) => {
         navigate(`/character/${id}`)
+    }
+
+    const remove = (id) => {
+        removeFavoriteIds(id);
+        setFavorites(favorites.filter(favorite => favorite.id !== id));
     }
 
 
@@ -39,7 +38,7 @@ export default function Favorite() {
         <section>
             <div className='header'>
                 <div className="description">
-                    <h1>Aqui são seus personagens favoritos: {favorites.name} </h1>
+                    <h1>Aqui são seus personagens favoritos: </h1>
                     <p>Escolha um personagem para ver mais informações.</p>
                 </div>
 
@@ -50,17 +49,18 @@ export default function Favorite() {
 
         
             <ul>
-                
                 {favorites.map((character, idx) =>
-                    <Card 
-                    isFavorite={favofite.includes(character.id)} 
-                    setFavorite={e => addFavorite(character.id)}
+                    <Card
+                    isFavorite={favofiteIds.includes(character.id)}
+                    setFavorite={() => remove(character.id)}
                     key={idx + 'fav'} 
                     onClick={() => mostrar(character.id)} 
                     title={character.name} 
                     subtitle={character.species}>
                         <img src={character.image} alt={character.name} />
                     </Card>)}
+
+                    {favorites.length === 0 && <h2>Nenhum personagem foi favoritado.</h2>}
             </ul>
         </section>
     )

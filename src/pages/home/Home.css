@@ -34,9 +34,27 @@ section {
         margin-top: 30px;
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
+        justify-content: space-around;
         column-gap: 15px;
         row-gap: 15px;
-        
+
+
+        .card {
+            min-width: 300px;
+            max-width: 300px;
+            border: 1px solid white;
+
+            img {
+                width: 100%;
+                border-radius: 12px;
+                border: 2px solid white;
+                margin-bottom: 10px;
+            }
+        }
     }
+}
+
+
+.container {
+    position: absolute;
 }

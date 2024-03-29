@@ -1,20 +1,20 @@
 import { useContext } from 'react';
 import './Header.css';
 import { FavoriteContext } from '../../context/FavoriteContext';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 export default function Header({ title, itens = [] }) {
-    const { favofite } = useContext(FavoriteContext);
+    const { favofiteIds } = useContext(FavoriteContext);
     
     return (
         <header>
             <p>{title}</p>
 
-            <p>qtd favoritos: {favofite.length}</p>
+            <p><b>quantidade favoritos</b>: {favofiteIds.length}</p>
 
-            <nav>
+            <nav >
                 {itens.map((item, index) => {
-                    return <Link to={item.route} key={index}> {item.name}</Link>
+                    return <NavLink to={item.route} key={index}> {item.name}</NavLink>
                 })}
             </nav>
         </header>

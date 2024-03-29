@@ -6,7 +6,9 @@ import { FavoriteContext } from '../../context/FavoriteContext';
 
 export default function Home() {
     const navigate = useNavigate();
-    const { favofite, addFavorite} = useContext(FavoriteContext);
+    const { favofiteIds, addFavoriteIds, removeFavoriteIds } = useContext(FavoriteContext);
+
+    const [selected, setSelected] = useState();
 
     const [characters, setCharacters] = useState([]);
     const [search, setSearch] = useState('');
@@ -33,6 +35,14 @@ export default function Home() {
         navigate(`/character/${id}`)
     }
 
+    const toggleFavorite = (id) => {
+        if(favofiteIds.includes(id)) {
+            removeFavoriteIds(id);
+        } else {
+            addFavoriteIds(id);
+        }
+    }
+
 
     return (
         <section>
@@ -52,14 +62,17 @@ export default function Home() {
             <ul>
                 {characters.map((character, idx) =>
                     <Card 
-                    isFavorite={favofite.includes(character.id)} 
-                    setFavorite={e => addFavorite(character.id)}
+                    className='card'
+                    isFavorite={favofiteIds.includes(character.id)} 
+                    setFavorite={e => toggleFavorite(character.id)}
                     key={idx + 'all'} 
                     onClick={() => mostrar(character.id)} 
                     title={character.name} 
                     subtitle={character.species}>
                         <img src={character.image} alt={character.name} />
                     </Card>)}
+
+                    {characters.length === 0 && <p>Nenhum personagem encontrado.</p>}
             </ul>
         </section>
     )
